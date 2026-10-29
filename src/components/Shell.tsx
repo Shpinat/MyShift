@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
-  ArrowLeft, Bell, BookOpen, CalendarDays, Check, ChevronRight, Clock, Code2, Cookie, Download, Eye, EyeOff, FileCheck2, FileText, Globe, HelpCircle, Info, Lightbulb, LogOut, Mail, MoreHorizontal, Plus, RefreshCcw, ShieldCheck, Star, Sun, Moon, Tag, Trash2, Upload, BarChart3, BadgeCheck, Briefcase, Network, CheckCheck, Sparkles, ChevronLeft,
-} from "lucide-react";
+  ArrowLeft, Bell, BookOpen, CalendarDays, Check, ChevronRight, Clock, Code2, Cookie, Download, Eye, EyeOff, FileCheck2, FileText, Globe, HelpCircle, Info, Lightbulb, LogOut, Mail, MoreHorizontal, Plus, RefreshCcw, ShieldCheck, Star, Sun, Moon, Tag, Trash2, Upload, BarChart3, BadgeCheck, Briefcase, Network, CheckCheck, Sparkles, ChevronLeft, Settings as SettingsIcon } from "lucide-react";
 import { useApp } from "../lib/store";
 import { useUI, type Tab } from "../lib/uictx";
 import { Drawer, Empty } from "./ui";
@@ -67,7 +66,7 @@ export function Header() {
   const { settings } = useApp();
   const [drawer, setDrawer] = useState(false);
   const n = usePopover();
-  const initials = settings.profileName.trim().slice(0, 2).toLowerCase() || "g";
+  const initials = "Настройки";
   return (
     <header className="topbar">
       <div className="brand">
@@ -89,10 +88,7 @@ export function Header() {
             <Empty icon={Bell} title="Всё прочитано" text="Уведомлений пока нет. Мы напишем сюда, когда появится новый трекер, калькулятор или что-то важное для аккаунта." />
           </div>
         )}
-        <button className="avatar" onClick={() => setDrawer(true)} aria-label="Аккаунт">
-          {initials}
-          <i className="dot green" />
-        </button>
+        <button className="icon-btn ghost bell" onClick={() => setDrawer(true)} aria-label="Настройки"><SettingsIcon size={20} /></button>
       </div>
       {drawer && <AccountDrawer onClose={() => setDrawer(false)} />}
     </header>
@@ -117,7 +113,7 @@ function AccountDrawer({ onClose }: { onClose: () => void }) {
     </button>
   );
   return (
-    <Drawer title="Аккаунт" onClose={onClose}>
+    <Drawer title="Настройки" onClose={onClose}>
       <div className="drawer-pills">
         <label className="pill-select">
           <Globe size={16} />
@@ -137,17 +133,7 @@ function AccountDrawer({ onClose }: { onClose: () => void }) {
           {settings.theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
         </button>
       </div>
-      <h4 className="eyebrow group">ПРОФИЛЬ И АККАУНТ</h4>
-      <div className="profile">
-        <span className="avatar big">{settings.profileName.trim().slice(0, 2).toLowerCase() || "g"}</span>
-        <div className="profile-fields">
-          <input value={settings.profileName} onChange={(e) => setSettings({ profileName: e.target.value })} aria-label="Имя" className="profile-name" />
-          <span className="muted small">Локальный профиль на этом устройстве</span>
-          <span className="trial">
-            <Sparkles size={11} /> ВСЕ ФУНКЦИИ ОТКРЫТЫ
-          </span>
-        </div>
-      </div>
+
       <button
         className="drow danger"
         onClick={() =>
